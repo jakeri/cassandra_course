@@ -24,7 +24,7 @@ public class CassandraRead {
 		CassandraRead me = new CassandraRead();
 		Keyspace ks = me.init();
 		ColumnFamily<String, Long> cf = me.getCf();
-		ColumnList<Long> columns = me.readRow(ks, cf, "hj");
+		ColumnList<Long> columns = me.readRow(ks, cf, "test_Jakobs-MacBook-Air.local_1355356800000");
 		for (Column<Long> c : columns) {
 			System.out.println(c.getName());
 		}

@@ -1,0 +1,3 @@
+create keyspace JavaKeyspaceName;
+
+create column family Metric with key_validation_class = 'UTF8Type' and comparator = 'LongType' and default_validation_class = 'DoubleType';
