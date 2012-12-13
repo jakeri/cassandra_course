@@ -33,7 +33,7 @@ public class CassandraRead {
 	
 	public Keyspace init() {
 		AstyanaxContext<Keyspace> context = new AstyanaxContext.Builder()
-				.forCluster("JavaJava")
+				.forCluster("Test Cluster")
 				.forKeyspace("JavaKeyspaceName")
 				.withAstyanaxConfiguration(
 						new AstyanaxConfigurationImpl()

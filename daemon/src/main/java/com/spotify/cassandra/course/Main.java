@@ -1,6 +1,7 @@
 package com.spotify.cassandra.course;
 
 import com.netflix.astyanax.AstyanaxContext;
+import com.netflix.astyanax.Cluster;
 import com.netflix.astyanax.Keyspace;
 import com.netflix.astyanax.MutationBatch;
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType;
@@ -8,6 +9,7 @@ import com.netflix.astyanax.connectionpool.OperationResult;
 import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.impl.ConnectionPoolConfigurationImpl;
 import com.netflix.astyanax.connectionpool.impl.CountingConnectionPoolMonitor;
+import com.netflix.astyanax.ddl.KeyspaceDefinition;
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl;
 import com.netflix.astyanax.model.ColumnFamily;
 import com.netflix.astyanax.serializers.LongSerializer;
@@ -23,30 +25,46 @@ import java.net.UnknownHostException;
 
 public class Main {
 
-	private final Keyspace keyspace;
+    private static final String KEYSPACE_NAME = "JavaKeyspaceName";
+    private final Keyspace keyspace;
+    private final Cluster cluster;
 
-	public Main() {
+    public Main() throws ConnectionException {
 
-		AstyanaxContext<Keyspace> context = new AstyanaxContext.Builder()
-				.forCluster("JavaJava")
-				.forKeyspace("JavaKeyspaceName")
-				.withAstyanaxConfiguration(
-						new AstyanaxConfigurationImpl()
-								.setDiscoveryType(NodeDiscoveryType.NONE))
-				.withConnectionPoolConfiguration(
-						new ConnectionPoolConfigurationImpl("MyConnectionPool")
-								.setPort(9160).setMaxConnsPerHost(1)
-								.setSeeds("127.0.0.1:9160"))
-				.withConnectionPoolMonitor(new CountingConnectionPoolMonitor())
+        AstyanaxContext.Builder builder = new AstyanaxContext.Builder()
+                .forCluster("JavaJava")
+                .forKeyspace(KEYSPACE_NAME)
+                .withAstyanaxConfiguration(
+                        new AstyanaxConfigurationImpl()
+                                .setDiscoveryType(NodeDiscoveryType.NONE))
+                .withConnectionPoolConfiguration(
+                        new ConnectionPoolConfigurationImpl("MyConnectionPool")
+                                .setPort(9160).setMaxConnsPerHost(1)
+                                .setSeeds("127.0.0.1:9160"))
+                .withConnectionPoolMonitor(new CountingConnectionPoolMonitor());
+        AstyanaxContext<Keyspace> ksContext = builder
 				.buildKeyspace(ThriftFamilyFactory.getInstance());
 
-		context.start();
-		this.keyspace = context.getEntity();
+		ksContext.start();
+		this.keyspace = ksContext.getEntity();
 
+        AstyanaxContext<Cluster> clusterContext = builder.buildCluster(ThriftFamilyFactory.getInstance());
+        clusterContext.start();
+        this.cluster = clusterContext.getEntity();
+
+        createColumnFamily(CF_METRIC);
 	}
 
-	public static final ColumnFamily<String, Long> CF_METRIC = new ColumnFamily<String, Long>(
-			"Metric", // Column Family Name
+    private void createColumnFamily(ColumnFamily<String, Long> columnFamily) throws ConnectionException {
+        KeyspaceDefinition ks = cluster.describeKeyspace(KEYSPACE_NAME);
+        if (ks.getColumnFamily(CF_METRIC_NAME) == null) {
+            cluster.addColumnFamily(cluster.makeColumnFamilyDefinition().setKeyspace(keyspace.getKeyspaceName()).setName(CF_METRIC_NAME));
+        }
+    }
+
+    private static final String CF_METRIC_NAME = "Metric";
+    public static final ColumnFamily<String, Long> CF_METRIC = new ColumnFamily<String, Long>(
+            CF_METRIC_NAME, // Column Family Name
 			StringSerializer.get(), // Key Serializer
 			LongSerializer.get()); // Column Serializer
 
@@ -57,23 +75,28 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		Main m = new Main();
-		m.writeMetric("test", System.currentTimeMillis(), 3d);
+        try {
+            Main m = new Main();
+            m.writeMetric("test", System.currentTimeMillis(), 3d);
 
-        Main myMain = new Main();
-        for (int i = 0; i < 100; i++) {
-            Long time = System.currentTimeMillis();
-            myMain.writeMetric("load", time, Metric.cpuLoad());
-            System.out.println(Metric.cpuLoad());
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Got interrupted");
+            Main myMain = new Main();
+            for (int i = 0; i < 100; i++) {
+                Long time = System.currentTimeMillis();
+                myMain.writeMetric("load", time, Metric.cpuLoad());
+                System.out.println(Metric.cpuLoad());
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Got interrupted");
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fail: ", e);
         }
 
-	}
+    }
 
 	public void writeMetric(String metric, final long ts, double data) {
 
