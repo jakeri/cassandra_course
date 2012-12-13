@@ -7,3 +7,21 @@
 *.ear
 
 *.iws
+/.target
+/.cache
+/bin
+logs
+project/project
+project/target
+target
+tmp
+.history
+dist
+/.idea
+/*.iml
+/out
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
+/.settings
