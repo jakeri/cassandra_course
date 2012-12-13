@@ -57,9 +57,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		printUsage();
-
-		System.out.println(buildRowKey(System.currentTimeMillis(), "apa"));
+		Main m = new Main();
+		m.writeMetric("test", System.currentTimeMillis(), 3d);
 
         Main myMain = new Main();
         for (int i = 0; i < 100; i++) {
@@ -76,7 +75,7 @@ public class Main {
 
 	}
 
-	public void writeMetric(String metric, final Long ts, Double data) {
+	public void writeMetric(String metric, final long ts, double data) {
 
 		String rowKey = buildRowKey(ts, metric);
 
@@ -87,6 +86,7 @@ public class Main {
 		try {
 			OperationResult<Void> result = m.execute();
 		} catch (ConnectionException e) {
+			e.printStackTrace();
 		}
 	}
 
