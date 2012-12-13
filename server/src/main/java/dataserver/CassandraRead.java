@@ -1,5 +1,7 @@
 package dataserver;
 
+import org.apache.log4j.BasicConfigurator;
+
 import com.netflix.astyanax.AstyanaxContext;
 import com.netflix.astyanax.Keyspace;
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType;
@@ -18,6 +20,7 @@ import com.netflix.astyanax.thrift.ThriftFamilyFactory;
 public class CassandraRead {
 	
 	public static void main(String[] args) throws ConnectionException {
+		BasicConfigurator.configure();
 		CassandraRead me = new CassandraRead();
 		Keyspace ks = me.init();
 		ColumnFamily<String, Long> cf = me.getCf();
