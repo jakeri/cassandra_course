@@ -1,18 +1,14 @@
 package com.spotify.cassandra.course;
 
-import org.hyperic.sigar.Sigar;
-import org.hyperic.sigar.SigarException;
+import java.lang.management.ManagementFactory;
 
 public class Metric {
-    private static Sigar sigar = new Sigar();
-
     public static double cpuLoad() {
-        try {
-            return sigar.getCpuPerc().getCombined();
-        } catch (SigarException e) {
-            e.printStackTrace();
-            return 0.0;
-        }
+        return ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
+    }
+
+    public static long freeMemory() {
+        return Runtime.getRuntime().freeMemory();
     }
 }
 

@@ -1,12 +1,5 @@
 package com.spotify.cassandra.course;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import com.netflix.astyanax.AstyanaxContext;
 import com.netflix.astyanax.Keyspace;
 import com.netflix.astyanax.MutationBatch;
@@ -20,6 +13,13 @@ import com.netflix.astyanax.model.ColumnFamily;
 import com.netflix.astyanax.serializers.LongSerializer;
 import com.netflix.astyanax.serializers.StringSerializer;
 import com.netflix.astyanax.thrift.ThriftFamilyFactory;
+
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Main {
 
@@ -60,6 +60,19 @@ public class Main {
 		printUsage();
 
 		System.out.println(buildRowKey(System.currentTimeMillis(), "apa"));
+
+        Main myMain = new Main();
+        for (int i = 0; i < 100; i++) {
+            Long time = System.currentTimeMillis();
+            myMain.writeMetric("load", time, Metric.cpuLoad());
+            System.out.println(Metric.cpuLoad());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Got interrupted");
+            }
+        }
 
 	}
 
