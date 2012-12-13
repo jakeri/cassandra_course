@@ -3,6 +3,13 @@
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
   </component>
+  <component name="CheckStyle-IDEA">
+    <option name="configuration">
+      <map>
+        <entry key="location-0" value="CLASSPATH:/sun_checks.xml:The default CheckStyle rules" />
+      </map>
+    </option>
+  </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
@@ -720,17 +727,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/joda-time/joda-time/2.0/joda-time-2.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: log4j:log4j:1.2.15">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.15/log4j-1.2.15.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.15/log4j-1.2.15-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.15/log4j-1.2.15-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: log4j:log4j:1.2.16">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.16/log4j-1.2.16.jar!/" />
@@ -885,15 +881,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jettison/jettison/1.3.1/jettison-1.3.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.fusesource:sigar:1.6.4">
+    <library name="Maven: org.hyperic:sigar:1.6.5.132">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/fusesource/sigar/1.6.4/sigar-1.6.4.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/fusesource/sigar/1.6.4/sigar-1.6.4-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/fusesource/sigar/1.6.4/sigar-1.6.4-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/hyperic/sigar/1.6.5.132/sigar-1.6.5.132-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.mortbay.jetty:jetty-util:6.1.22">

@@ -20,10 +20,18 @@
         </dependency>
 
       <dependency>
-          <groupId>org.fusesource</groupId>
+          <groupId>org.hyperic</groupId>
           <artifactId>sigar</artifactId>
-          <version>1.6.4</version>
+          <version>1.6.5.132</version>
       </dependency>
 
   </dependencies>
+
+    <repositories>
+        <repository>
+            <id>thirdparty-uploads</id>
+            <name>JBoss Thirdparty Uploads</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+        </repository>
+    </repositories>
 </project>
