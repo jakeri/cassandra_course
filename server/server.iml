@@ -50,16 +50,6 @@
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.cassandra:cassandra-thrift:1.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.stephenc:jamm:0.2.5" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-webapp:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-continuation:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-http:9.0.0.M0" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-io:9.0.0.M0" level="project" />
   </component>
 </module>
 
