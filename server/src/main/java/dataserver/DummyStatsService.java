@@ -11,7 +11,7 @@ public class DummyStatsService implements StatsService {
     public MetaResult getMetaData() throws IOException {
         return new MetaResult(
             ImmutableSet.of("host1","host2","host3"),
-            ImmutableSet.of("metric1","metric2","metric3")
+            ImmutableSet.of("metric1","metric2")
         );
     }
 
