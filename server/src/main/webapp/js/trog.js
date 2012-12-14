@@ -48,7 +48,7 @@ var trog = {
 		});
 		$("select").change(trog.fetch);
 		$.ajax({
-			url: "../meta/",
+			url: "./meta/",
 			dataType: 'json',
 			success: trog.handleMetadata
 		});
@@ -65,7 +65,7 @@ var trog = {
 		console.log("fetch");
 		var m = $('#metric :selected')[0].value;
 		var host = $('#host :selected')[0].value;
-		var url = "../stat/";
+		var url = "./stat/";
 
 		var data = {
 			'metric': m, 'host': host
