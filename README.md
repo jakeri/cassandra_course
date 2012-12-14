@@ -1,13 +1,16 @@
-cassandra_course
+Cassandra course
 ================
 
+This is a test application for writing metrics to Cassandra (daemon) and server to serve metric data to the client code.
 
 RowKey
-<metric>_<host>_<timestamp day>
+metric_host_timestamp-day-ms
 
 
 Column
-<timstamp ms>
+================
+timstamp-ms
 
 Column-value
-<metric-value>
+================
+metric-value
