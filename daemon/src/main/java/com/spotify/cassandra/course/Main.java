@@ -1,7 +1,9 @@
 package com.spotify.cassandra.course;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import com.netflix.astyanax.AstyanaxContext;
-import com.netflix.astyanax.Cluster;
 import com.netflix.astyanax.Keyspace;
 import com.netflix.astyanax.MutationBatch;
 import com.netflix.astyanax.connectionpool.NodeDiscoveryType;
@@ -9,25 +11,17 @@ import com.netflix.astyanax.connectionpool.OperationResult;
 import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
 import com.netflix.astyanax.connectionpool.impl.ConnectionPoolConfigurationImpl;
 import com.netflix.astyanax.connectionpool.impl.CountingConnectionPoolMonitor;
-import com.netflix.astyanax.ddl.KeyspaceDefinition;
 import com.netflix.astyanax.impl.AstyanaxConfigurationImpl;
 import com.netflix.astyanax.model.ColumnFamily;
 import com.netflix.astyanax.serializers.LongSerializer;
 import com.netflix.astyanax.serializers.StringSerializer;
 import com.netflix.astyanax.thrift.ThriftFamilyFactory;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 public class Main {
 
     private static final String KEYSPACE_NAME = "JavaKeyspaceName";
     private final Keyspace keyspace;
-    private final Cluster cluster;
+//    private final Cluster cluster;
 
     public Main() throws ConnectionException {
 
@@ -48,19 +42,19 @@ public class Main {
 		ksContext.start();
 		this.keyspace = ksContext.getEntity();
 
-        AstyanaxContext<Cluster> clusterContext = builder.buildCluster(ThriftFamilyFactory.getInstance());
-        clusterContext.start();
-        this.cluster = clusterContext.getEntity();
-
-        createColumnFamily(CF_METRIC);
+//        AstyanaxContext<Cluster> clusterContext = builder.buildCluster(ThriftFamilyFactory.getInstance());
+//        clusterContext.start();
+//        this.cluster = clusterContext.getEntity();
+//
+//        createColumnFamily(CF_METRIC);
 	}
 
-    private void createColumnFamily(ColumnFamily<String, Long> columnFamily) throws ConnectionException {
-        KeyspaceDefinition ks = cluster.describeKeyspace(KEYSPACE_NAME);
-        if (ks.getColumnFamily(CF_METRIC_NAME) == null) {
-            cluster.addColumnFamily(cluster.makeColumnFamilyDefinition().setKeyspace(keyspace.getKeyspaceName()).setName(CF_METRIC_NAME));
-        }
-    }
+//    private void createColumnFamily(ColumnFamily<String, Long> columnFamily) throws ConnectionException {
+//        KeyspaceDefinition ks = cluster.describeKeyspace(KEYSPACE_NAME);
+//        if (ks.getColumnFamily(CF_METRIC_NAME) == null) {
+//            cluster.addColumnFamily(cluster.makeColumnFamilyDefinition().setKeyspace(keyspace.getKeyspaceName()).setName(CF_METRIC_NAME));
+//        }
+//    }
 
     private static final String CF_METRIC_NAME = "Metric";
     public static final ColumnFamily<String, Long> CF_METRIC = new ColumnFamily<String, Long>(
@@ -76,16 +70,15 @@ public class Main {
 	public static void main(String[] args) {
 
         try {
-            Main m = new Main();
-            m.writeMetric("test", System.currentTimeMillis(), 3d);
+            Main main = new Main();
 
-            Main myMain = new Main();
-            for (int i = 0; i < 100; i++) {
-                Long time = System.currentTimeMillis();
-                myMain.writeMetric("load", time, Metric.cpuLoad());
-                System.out.println(Metric.cpuLoad());
+            while (true) {
+                long time = System.currentTimeMillis();
+                main.writeMetric("load", time, Metric.cpuLoad());
+                main.writeMetric("freemem", time, Metric.freeMemory());
+                //System.out.println(Metric.freeMemory());
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     throw new RuntimeException("Got interrupted");
@@ -128,26 +121,6 @@ public class Main {
 		}
 
 		return metric + "_" + hostname + "_" + dayMs;
-	}
-
-	private static void printUsage() {
-		OperatingSystemMXBean operatingSystemMXBean = ManagementFactory
-				.getOperatingSystemMXBean();
-		System.out.println(operatingSystemMXBean.getSystemLoadAverage());
-		for (Method method : operatingSystemMXBean.getClass()
-				.getDeclaredMethods()) {
-			method.setAccessible(true);
-			if (method.getName().startsWith("get")
-					&& Modifier.isPublic(method.getModifiers())) {
-				Object value;
-				try {
-					value = method.invoke(operatingSystemMXBean);
-				} catch (Exception e) {
-					value = e;
-				} // try
-				System.out.println(method.getName() + " = " + value);
-			} // if
-		} // for
 	}
 
 }

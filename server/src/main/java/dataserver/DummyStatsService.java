@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class DummyStatsService implements StatsService {
 
-    @Override
     public MetaResult getMetaData() throws IOException {
         return new MetaResult(
             ImmutableSet.of("host1","host2","host3"),
@@ -15,7 +14,6 @@ public class DummyStatsService implements StatsService {
         );
     }
 
-    @Override
     public ImmutableList<MetricTuple> getStatsFor(String host, String metric) {
         ImmutableList.Builder tmp = new ImmutableList.Builder<MetricTuple>();
         for (long i = 0 ;i< 10000; i ++ ) {

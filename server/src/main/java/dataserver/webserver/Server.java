@@ -28,7 +28,7 @@ public class Server {
         ResourceHandler resource_handler = new ResourceHandler();
 
         resource_handler.setWelcomeFiles(new String[]{ "index.html" });
-        resource_handler.setResourceBase("server/src/main/webapp");
+        resource_handler.setResourceBase("src/main/webapp");
 
         ServletHandler servletHandler=new ServletHandler();
         servletHandler.addServletWithMapping(new ServletHolder(new MetaServlet(statsService)), "/meta/");
